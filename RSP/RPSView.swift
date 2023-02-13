@@ -12,6 +12,7 @@ struct RPSView: View {
     @ObservedObject var viewModel: RPSViewModel
     var body: some View {
         VStack {
+            Spacer()
             HStack {
                 Image("rock")
                     .resizable()

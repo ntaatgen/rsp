@@ -21,10 +21,17 @@ enum Action: CustomStringConvertible {
         case .none: return "question"
         }
     }
+    static func findAction(_ actionString: String) -> Action {
+        switch actionString {
+        case "rock": return(.rock)
+        case "paper": return(.paper)
+        case "scissors": return(.scissors)
+        default: return(.none)
+        }
+    }
 }
 
 enum Emotion: CustomStringConvertible {
-    
     case happy
     case sad
     case neutral
@@ -54,14 +61,7 @@ struct RPSModel {
         guard action != .none else { print("Error in model") ; return }
         playerAction = action
         if let modelActionString = model.lastAction(slot: "choice") {
-            switch modelActionString {
-            case "rock": modelAction = .rock
-            case "paper": modelAction = .paper
-            case "scissors": modelAction = .scissors
-            default: print("Error in model")
-            modelAction = .none
-                return
-            }
+            modelAction = Action.findAction(modelActionString)
             switch (playerAction, modelAction) {
             case (.rock, .rock), (.scissors, .scissors), (.paper, .paper):
                 playerMood = .neutral
@@ -80,8 +80,6 @@ struct RPSModel {
             model.modifyLastAction(slot: "opponent", value: playerAction.description)
             model.run()
         }
-        
-        
     }
     
 }
